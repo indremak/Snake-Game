@@ -1,9 +1,12 @@
 const board = document.querySelector(".board");
 const score = document.querySelector(".score-number");
+const highScore = document.querySelector(".high-score-number");
 const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
+
+const HIGHSCORESTRING = "highscore";
 
 let boardWidth = 20;
 let boardHeight = 15;
@@ -161,6 +164,7 @@ function startGame() {
 }
 
 function gameOver() {
+  setHighScore(gameState.score);
   gameOverText.style.display = "initial";
   clearInterval(intervalId);
   pauseBtn.disabled = true;
@@ -173,6 +177,31 @@ pauseBtn.addEventListener("click", () => {
   pauseBtn.disabled = true;
 });
 
+function setHighScore(score) {
+  let currentHighScore = localStorage.getItem(HIGHSCORESTRING);
+  if (currentHighScore != null) {
+    if (score > currentHighScore) {
+      localStorage.setItem(HIGHSCORESTRING, score);
+    }
+  } else {
+    localStorage.setItem(HIGHSCORESTRING, score);
+  }
+  displayHighScore();
+}
+
+function displayHighScore() {
+  highScore.innerHTML = getHighScore();
+}
+
+function getHighScore() {
+  let currentHighScore = localStorage.getItem(HIGHSCORESTRING);
+  if (currentHighScore != null) {
+    return currentHighScore;
+  } else {
+    return 0;
+  }
+}
+
 function init() {
   gameState = {
     snakeLength: 3,
@@ -181,6 +210,7 @@ function init() {
     direction: "right",
     score: 0,
   };
+  displayHighScore();
   gameOverText.style.display = "none";
   board.innerHTML = "";
   createBoard(boardWidth, boardHeight);
