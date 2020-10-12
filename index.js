@@ -8,7 +8,7 @@ const newGameBtn = document.querySelector(".btn-newGame");
 
 const HIGHSCORESTRING = "highscore";
 const STARTSPEED = 200;
-const SPEEDINCREMENT = 25;
+const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
 
 let boardWidth = 20;
