@@ -23,6 +23,9 @@ function createBoard(x, y) {
       let cell = document.createElement("div");
       cell.classList.add("cell");
       cell.classList.add(`cell-${cellNumber}`);
+      let eyes = document.createElement("div");
+      eyes.innerHTML = ":";
+      cell.appendChild(eyes);
       board.appendChild(cell);
       cellNumber++;
     }
