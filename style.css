@@ -1,0 +1,78 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  --cellWidth: 20px;
+  --cellHeight: 20px;
+}
+
+.info {
+  margin: 10px auto;
+  width: fit-content;
+}
+
+button {
+  height: 2rem;
+  width: 6rem;
+}
+
+.score {
+  margin: 0 auto;
+  width: fit-content;
+  font-size: 2rem;
+}
+
+.board {
+  width: calc(var(--cellWidth) * 20.1);
+  height: calc(var(--cellHeight) * 15);
+  margin: 10px auto;
+  border: 1px solid rgb(0, 0, 0);
+  border-right: none;
+  border-top: none;
+}
+
+.cell {
+  float: left;
+  background-color: rgb(21, 112, 85);
+  width: var(--cellWidth);
+  height: var(--cellHeight);
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgb(0, 0, 0);
+  border-left: none;
+  border-bottom: none;
+}
+
+.hasSnake {
+  background-color: rgb(247, 36, 36);
+}
+
+.food {
+  background-color: rgb(163, 20, 163);
+}
+
+#game-over {
+  position: absolute;
+  top: 200px;
+  left: 40%;
+  font-size: 4rem;
+  color: rgb(224, 223, 233);
+  font-weight: 900;
+  animation: blinking 1.2s forwards;
+  display: none;
+}
+
+@keyframes blinking {
+  0%,
+  30%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+  15%,
+  45%,
+  75% {
+    opacity: 0;
+  }
+}
