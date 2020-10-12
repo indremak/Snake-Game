@@ -9,7 +9,7 @@ body {
 
 .info {
   margin: 10px auto;
-  width: fit-content;
+  width: max-content;
 }
 
 button {
