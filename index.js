@@ -31,7 +31,11 @@ function createBoard(x, y) {
 
 function drawSnake(snakeLength) {
   for (let i = 0; i < snakeLength; i++) {
-    updateSnakeCell("add", gameState.snake[i]);
+    if(i === 0) {
+      updateSnakeCell("add-head", gameState.snake[i]);
+    } else {
+        updateSnakeCell("add", gameState.snake[i]);
+    }
   }
 }
 
@@ -48,6 +52,17 @@ function createFood() {
 // remove or add hasSnake class to cell
 function updateSnakeCell(action, cellNumber) {
   let cellEl = document.querySelector(`.cell-${cellNumber}`);
+  cellEl.classList.remove("snake-head__first-position");
+  cellEl.classList.remove("snake-head__second-position");
+  if (action === "add-head") {
+    if(gameState.direction === "left" || gameState.direction === "right") {
+      cellEl.classList.add("snake-head__first-position");
+    }
+    if(gameState.direction === "up" || gameState.direction === "down") {
+      cellEl.classList.add("snake-head__second-position");
+    }
+    cellEl.classList.add("hasSnake");  
+  }  
   if (action === "add") {
     cellEl.classList.add("hasSnake");
   }
