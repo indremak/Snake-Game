@@ -81,35 +81,51 @@ function eatFood() {
 function showScore() {
   score.innerHTML = gameState.score;
 }
-
+let movementTimer;
+/* Add: When keyup happens, just reset the movementTimer  */
+document.addEventListener("keyup", () => {
+  console.log(movementTimer);
+  if (movementTimer) {
+    clearTimeout(movementTimer);
+    movementTimer = null;
+  }
+});
 //keycode: up 38, down 40, right 39, left 37
 function changeDirection(e) {
-  if (e.keyCode === 39) {
-    if (gameState.direction === "left") {
-      return;
+  console.log(e);
+  if (!movementTimer) {
+    if (e.keyCode === 39) {
+      if (gameState.direction === "left") {
+        return;
+      }
+      gameState.direction = "right";
     }
-    gameState.direction = "right";
-  }
-  if (e.keyCode === 37) {
-    if (gameState.direction === "right") {
-      return;
+    if (e.keyCode === 37) {
+      if (gameState.direction === "right") {
+        return;
+      }
+      gameState.direction = "left";
     }
-    gameState.direction = "left";
-  }
-  if (e.keyCode === 38) {
-    if (gameState.direction === "down") {
-      return;
+    if (e.keyCode === 38) {
+      if (gameState.direction === "down") {
+        return;
+      }
+      gameState.direction = "up";
     }
-    gameState.direction = "up";
-  }
-  if (e.keyCode === 40) {
-    if (gameState.direction === "up") {
-      return;
+    if (e.keyCode === 40) {
+      if (gameState.direction === "up") {
+        return;
+      }
+      gameState.direction = "down";
     }
-    gameState.direction = "down";
-  }
-  if (e.keyCode === 82) {
-    init();
+    if (e.keyCode === 82) {
+      init();
+    }
+    movementTimer = setTimeout(() => {
+      movementTimer = null;
+
+      /* Your movementTimer interval - reduce/increase this number to suit you needs */
+    }, 1000);
   }
 }
 
