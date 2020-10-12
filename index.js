@@ -7,6 +7,9 @@ const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 
 const HIGHSCORESTRING = "highscore";
+const STARTSPEED = 200;
+const SPEEDINCREMENT = 5;
+const MINSPEED = 25;
 
 let boardWidth = 20;
 let boardHeight = 15;
@@ -73,6 +76,7 @@ function eatFood() {
     createFood();
     updateFoodCell("add", gameState.food);
     gameState.score++;
+    increaseSpeed();
     showScore();
     return true;
   }
@@ -157,8 +161,18 @@ function move() {
 
 let intervalId;
 
+function increaseSpeed() {
+  clearInterval(intervalId);
+  gameState.speed = Math.max(MINSPEED, gameState.speed - SPEEDINCREMENT);
+  intervalId = setInterval(move, gameState.speed);
+}
+
+function resetSpeed() {
+  gameState.speed = STARTSPEED;
+}
+
 function startGame() {
-  intervalId = setInterval(move, 200);
+  intervalId = setInterval(move, gameState.speed);
   startBtn.disabled = true;
   pauseBtn.disabled = false;
 }
@@ -167,6 +181,7 @@ function gameOver() {
   setHighScore(gameState.score);
   gameOverText.style.display = "initial";
   clearInterval(intervalId);
+  resetSpeed();
   pauseBtn.disabled = true;
   startBtn.disabled = true;
 }
@@ -208,6 +223,7 @@ function init() {
     snake: [147, 146, 145],
     snakeStart: 147,
     direction: "right",
+    speed: STARTSPEED,
     score: 0,
   };
   displayHighScore();
