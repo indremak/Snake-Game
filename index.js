@@ -12,7 +12,7 @@ const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
 
 let boardWidth = 20;
-let boardHeight = 15;
+let boardHeight = 20;
 
 let gameState;
 
@@ -173,7 +173,7 @@ function resetSpeed() {
 
 function startGame() {
   intervalId = setInterval(move, gameState.speed);
-  startBtn.disabled = true;
+  startBtn.disabled = false;
   pauseBtn.disabled = false;
 }
 
@@ -183,7 +183,7 @@ function gameOver() {
   clearInterval(intervalId);
   resetSpeed();
   pauseBtn.disabled = true;
-  startBtn.disabled = true;
+  startBtn.disabled = false;
 }
 
 pauseBtn.addEventListener("click", () => {
@@ -222,7 +222,7 @@ function init() {
     snakeLength: 3,
     snake: [147, 146, 145],
     snakeStart: 147,
-    direction: "right",
+    direction: Math.random,
     speed: STARTSPEED,
     score: 0,
   };
