@@ -45,8 +45,49 @@ button {
 }
 
 .hasSnake {
-  background-color: rgb(247, 36, 36);
+  background: repeating-radial-gradient(
+    circle,
+    red,
+    red 7px,
+    rgb(83, 3, 3) 10px, 
+    rgb(83, 3, 3)20px
+  );
 }
+
+.head {
+  background: rgb(83, 3, 3);
+  color: red;
+  font-size: 15px;
+}
+  
+
+.head .eyes-right {
+  display: block;
+  text-align: end;
+}  
+ 
+
+.head .eyes-left {
+  display: block;
+  text-align: initial;
+}
+
+.head .eyes-down {
+  display: block;
+  text-align: end;
+  transform: rotate(90deg);
+}
+
+.head .eyes-up {
+  display: block;
+  text-align: start;
+  transform: rotate(90deg);
+}
+
+.cell div {
+  display: none;
+}
+
 
 .food {
   background-color: rgb(163, 20, 163);
