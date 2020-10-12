@@ -51,8 +51,10 @@ function createFood() {
 // remove or add hasSnake class to cell
 function updateSnakeCell(action, cellNumber) {
   let cellEl = document.querySelector(`.cell-${cellNumber}`);
-  if (action === "add") {
-    cellEl.classList.add("hasSnake");
+  
+  if (action === "add") {    
+    cellEl.classList.add("hasSnake");    
+    renderHead();
   }
   if (action === "remove") {
     cellEl.classList.remove("hasSnake");
@@ -237,6 +239,25 @@ function init() {
   drawSnake(gameState.snakeLength, gameState.snakeStart);
   updateFoodCell("add", gameState.food);
   startGame();
+}
+
+function renderHead() {
+  head = document.querySelectorAll('.head');
+  if(head != null){
+      head.forEach((element) => {
+        element.classList.remove('head');
+      });
+  }    
+
+  headSquare = document.querySelector(`.cell-${gameState.snake[0]}`);
+  headSquare.classList.add('head');
+
+  headSquare.children[0].classList.remove('eyes-down');
+  headSquare.children[0].classList.remove('eyes-left');
+  headSquare.children[0].classList.remove('eyes-right');
+  headSquare.children[0].classList.remove('eyes-up');
+
+  headSquare.children[0].classList.add(`eyes-${gameState.direction}`);
 }
 
 startBtn.addEventListener("click", startGame);
