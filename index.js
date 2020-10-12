@@ -30,7 +30,9 @@ function createBoard(x, y) {
 }
 
 function drawSnake(snakeLength) {
-  for (let i = 0; i < snakeLength; i++) {
+  updateSnakeCell("addHead", gameState.snake[0]);
+  updateSnakeCell("removeHead", gameState.snake[1]);
+  for (let i = 1; i < snakeLength; i++) {
     updateSnakeCell("add", gameState.snake[i]);
   }
 }
@@ -45,14 +47,24 @@ function createFood() {
   }
 }
 
-// remove or add hasSnake class to cell
+// remove or add snake class to cell
 function updateSnakeCell(action, cellNumber) {
   let cellEl = document.querySelector(`.cell-${cellNumber}`);
-  if (action === "add") {
-    cellEl.classList.add("hasSnake");
-  }
-  if (action === "remove") {
-    cellEl.classList.remove("hasSnake");
+  switch(action) {
+    case "add":
+      cellEl.classList.add("hasSnake");
+      break;
+    case "addHead":
+      cellEl.classList.add("hasSnakeHead");
+      break;
+    case "remove":
+      cellEl.classList.remove("hasSnake");
+      break;
+     case "removeHead":
+      cellEl.classList.remove("hasSnakeHead");
+      break;
+    default:
+      // Do nothing. Unsupported action
   }
 }
 
