@@ -11,6 +11,12 @@ const STARTSPEED = 200;
 const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
 
+const audio = {
+  eat: new Audio('assets/sounds/eat.wav'),
+  hit: new Audio('assets/sounds/hit.wav'),
+  lost: new Audio('assets/sounds/lost.wav'),
+}
+
 let boardWidth = 20;
 let boardHeight = 15;
 
@@ -196,6 +202,8 @@ function move() {
     if (!ateFood) {
       updateSnakeCell("remove", lastCell);
       gameState.snake.pop();
+    } else {
+      audio.eat.play();
     }
     drawSnake(gameState.snakeLength);
   }
@@ -220,8 +228,12 @@ function startGame() {
 }
 
 function gameOver() {
+  audio.hit.play().catch(() => gameOverText.style.display = "initial");
+  audio.hit.addEventListener("ended", () => {
+    audio.lost.play()
+    gameOverText.style.display = "initial";
+  });
   setHighScore(gameState.score);
-  gameOverText.style.display = "initial";
   clearInterval(intervalId);
   resetSpeed();
   pauseBtn.disabled = true;
