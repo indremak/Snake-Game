@@ -99,26 +99,27 @@ function showScore() {
 }
 
 //keycode: up 38, down 40, right 39, left 37
+// w: 87, a: 65, s: 83, d: 68
 function changeDirection(e) {
-  if (e.keyCode === 39) {
+  if (e.keyCode === 39 || e.keyCode === 68) {
     if (gameState.direction === "left") {
       return;
     }
     gameState.direction = "right";
   }
-  if (e.keyCode === 37) {
+  if (e.keyCode === 37 || e.keyCode === 65) {
     if (gameState.direction === "right") {
       return;
     }
     gameState.direction = "left";
   }
-  if (e.keyCode === 38) {
+  if (e.keyCode === 38 || e.keyCode === 87) {
     if (gameState.direction === "down") {
       return;
     }
     gameState.direction = "up";
   }
-  if (e.keyCode === 40) {
+  if (e.keyCode === 40 || e.keyCode === 83) {
     if (gameState.direction === "up") {
       return;
     }
