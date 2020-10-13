@@ -49,7 +49,7 @@ function createFood() {
   }
 }
 
-// remove or add hasSnake class to cell
+// remove or add snake class to cell
 function updateSnakeCell(action, cellNumber) {
   let cellEl = document.querySelector(`.cell-${cellNumber}`);
   cellEl.classList.remove("snake-head__first-position");
@@ -102,26 +102,27 @@ function showScore() {
 }
 
 //keycode: up 38, down 40, right 39, left 37
+// w: 87, a: 65, s: 83, d: 68
 function changeDirection(e) {
-  if (e.keyCode === 39) {
+  if (e.keyCode === 39 || e.keyCode === 68) {
     if (gameState.direction === "left") {
       return;
     }
     gameState.direction = "right";
   }
-  if (e.keyCode === 37) {
+  if (e.keyCode === 37 || e.keyCode === 65) {
     if (gameState.direction === "right") {
       return;
     }
     gameState.direction = "left";
   }
-  if (e.keyCode === 38) {
+  if (e.keyCode === 38 || e.keyCode === 87) {
     if (gameState.direction === "down") {
       return;
     }
     gameState.direction = "up";
   }
-  if (e.keyCode === 40) {
+  if (e.keyCode === 40 || e.keyCode === 83) {
     if (gameState.direction === "up") {
       return;
     }
@@ -132,46 +133,73 @@ function changeDirection(e) {
   }
 }
 
+function isOppositeDirection(gameState) {
+  if (gameState.lastDirection == "right" && gameState.direction == 'left') {
+    return true;
+  } else if (gameState.lastDirection == "up" && gameState.direction == 'down') {
+    return true;
+  } else if (gameState.lastDirection == "left" && gameState.direction == 'right') {
+    return true;
+  } else if (gameState.lastDirection == "down" && gameState.direction == 'up') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function move() {
   let lastCell = gameState.snake[gameState.snakeLength - 1];
   let start;
   if (gameState.direction === "right") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart + 1;
     if (start % boardWidth === 0) {
       gameOver();
       return;
     }
   } else if (gameState.direction === "left") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart - 1;
     if (start < 0 || start % boardWidth === boardWidth - 1) {
       gameOver();
       return;
     }
   } else if (gameState.direction === "up") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart - boardWidth;
     if (start < 0) {
       gameOver();
       return;
     }
   } else if (gameState.direction === "down") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart + boardWidth;
     if (start > boardWidth * boardHeight) {
       gameOver();
       return;
     }
   }
-  if (gameState.snake.includes(start)) {
-    gameOver();
-    return;
+
+  if (isOppositeDirection(gameState)) {
+    gameState.snakeStart = gameState.lastStart;
+    gameState.direction = gameState.lastDirection;
+    drawSnake(gameState.snakeLength);
+  } else {
+    if (gameState.snake.includes(start)) {
+      gameOver();
+      return;
+    }
+
+    gameState.snakeStart = start;
+    gameState.snake.unshift(start);
+    gameState.lastDirection = gameState.direction;
+    let ateFood = eatFood();
+    if (!ateFood) {
+      updateSnakeCell("remove", lastCell);
+      gameState.snake.pop();
+    }
+    drawSnake(gameState.snakeLength);
   }
-  gameState.snakeStart = start;
-  gameState.snake.unshift(start);
-  let ateFood = eatFood();
-  if (!ateFood) {
-    updateSnakeCell("remove", lastCell);
-    gameState.snake.pop();
-  }
-  drawSnake(gameState.snakeLength);
 }
 
 let intervalId;
