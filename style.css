@@ -61,7 +61,7 @@ button {
   top: 200px;
   left: 40%;
   font-size: 4rem;
-  color: rgb(150, 0, 0);
+  color: rgb(224, 223, 233);
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;
