@@ -45,15 +45,15 @@ button {
 }
 
 .hasSnake {
-  background-color: rgb(247, 36, 36);
+  background-color: rgba(20, 0, 202, 0.74);
 }
 
 .hasSnakeHead {
-  background-color: rgb(222, 177, 51);
+  background-color: rgb(222, 51, 51);
 }
 
 .food {
-  background-color: rgb(163, 20, 163);
+  background-color: rgb(2, 255, 44);
 }
 
 #game-over {
@@ -61,7 +61,7 @@ button {
   top: 200px;
   left: 40%;
   font-size: 4rem;
-  color: rgb(224, 223, 233);
+  color: rgb(150, 0, 0);
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;

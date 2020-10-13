@@ -6,7 +6,7 @@ const startBtn = document.querySelector(".btn-start");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 
-const HIGHSCORESTRING = "highscore";
+const highscorestring = "";
 const STARTSPEED = 200;
 const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
@@ -233,13 +233,13 @@ pauseBtn.addEventListener("click", () => {
 });
 
 function setHighScore(score) {
-  let currentHighScore = localStorage.getItem(HIGHSCORESTRING);
+  let currentHighScore = localStorage.getItem(highscorestring);
   if (currentHighScore != null) {
     if (score > currentHighScore) {
-      localStorage.setItem(HIGHSCORESTRING, score);
+      localStorage.setItem(highscorestring, score);
     }
   } else {
-    localStorage.setItem(HIGHSCORESTRING, score);
+    localStorage.setItem(highscorestring, score);
   }
   displayHighScore();
 }
@@ -249,7 +249,7 @@ function displayHighScore() {
 }
 
 function getHighScore() {
-  let currentHighScore = localStorage.getItem(HIGHSCORESTRING);
+  let currentHighScore = localStorage.getItem(highscorestring);
   if (currentHighScore != null) {
     return currentHighScore;
   } else {
