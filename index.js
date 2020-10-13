@@ -30,10 +30,12 @@ function createBoard(x, y) {
 }
 
 function drawSnake(snakeLength) {
-  updateSnakeCell("addHead", gameState.snake[0]);
-  updateSnakeCell("removeHead", gameState.snake[1]);
-  for (let i = 1; i < snakeLength; i++) {
-    updateSnakeCell("add", gameState.snake[i]);
+  for (let i = 0; i < snakeLength; i++) {
+    if(i === 0) {
+      updateSnakeCell("add-head", gameState.snake[i]);
+    } else {
+        updateSnakeCell("add", gameState.snake[i]);
+    }
   }
 }
 
@@ -50,21 +52,21 @@ function createFood() {
 // remove or add snake class to cell
 function updateSnakeCell(action, cellNumber) {
   let cellEl = document.querySelector(`.cell-${cellNumber}`);
-  switch(action) {
-    case "add":
-      cellEl.classList.add("hasSnake");
-      break;
-    case "addHead":
-      cellEl.classList.add("hasSnakeHead");
-      break;
-    case "remove":
-      cellEl.classList.remove("hasSnake");
-      break;
-     case "removeHead":
-      cellEl.classList.remove("hasSnakeHead");
-      break;
-    default:
-      // Do nothing. Unsupported action
+  cellEl.classList.remove("snake-head__first-position");
+  cellEl.classList.remove("snake-head__second-position");
+  if (action === "add-head") {
+    if(gameState.direction === "left" || gameState.direction === "right") {
+      cellEl.classList.add("snake-head__first-position");
+    }
+    if(gameState.direction === "up" || gameState.direction === "down") {
+      cellEl.classList.add("snake-head__second-position");
+    }
+  }  
+  if (action === "add") {
+    cellEl.classList.add("hasSnake");
+  }
+  if (action === "remove") {
+    cellEl.classList.remove("hasSnake");
   }
 }
 

@@ -44,6 +44,62 @@ button {
   border-bottom: none;
 }
 
+.snake-head__first-position, .snake-head__second-position {
+  background-color: rgb(222, 177, 51);
+}
+
+.snake-head__first-position::before {
+  content: "";
+  background-color: yellow;
+  border: solid 1px black;
+  border-radius: 50%;
+  position: relative;
+  width: 5px;
+  height: 5px;
+  display: block;
+  top: 11px;
+  left: 8px;
+}
+
+.snake-head__first-position::after {
+  content: "";
+  background-color: yellow;
+  border: solid 1px black;
+  border-radius: 50%;
+  position: relative;
+  width: 5px;
+  height: 5px;
+  top: -5px;
+  left: 8px;
+  display: block;
+}
+
+.snake-head__second-position::before {
+  content: "";
+  background-color: yellow;
+  border: solid 1px black;
+  border-radius: 50%;
+  position: relative;
+  width: 5px;
+  height: 5px;
+  display: block;
+  top: 7px;
+  left: 2px;
+}
+
+.snake-head__second-position::after {
+  content: "";
+  background-color: yellow;
+  border: solid 1px black;
+  border-radius: 50%;
+  position: relative;
+  width: 5px;
+  height: 5px;
+  top: 0px;
+  left: 11px;
+  display: block;
+}
+
 .hasSnake {
   background-color: rgb(247, 36, 36);
 }
