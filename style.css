@@ -48,6 +48,10 @@ button {
   background-color: rgb(247, 36, 36);
 }
 
+.hasSnake:first-child{
+  background-color: rgb(181, 0, 0);
+}
+
 .food {
   background-color: rgb(163, 20, 163);
 }
