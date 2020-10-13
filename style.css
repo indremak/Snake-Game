@@ -110,6 +110,8 @@ button {
 
 .food {
   background-color: rgb(163, 20, 163);
+  border: solid 2px gold;
+  animation: blinking 2s forwards;
 }
 
 #game-over {
