@@ -117,46 +117,73 @@ function changeDirection(e) {
   }
 }
 
+function isOppositeDirection(gameState) {
+  if (gameState.lastDirection == "right" && gameState.direction == 'left') {
+    return true;
+  } else if (gameState.lastDirection == "up" && gameState.direction == 'down') {
+    return true;
+  } else if (gameState.lastDirection == "left" && gameState.direction == 'right') {
+    return true;
+  } else if (gameState.lastDirection == "down" && gameState.direction == 'up') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function move() {
   let lastCell = gameState.snake[gameState.snakeLength - 1];
   let start;
   if (gameState.direction === "right") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart + 1;
     if (start % boardWidth === 0) {
       gameOver();
       return;
     }
   } else if (gameState.direction === "left") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart - 1;
     if (start < 0 || start % boardWidth === boardWidth - 1) {
       gameOver();
       return;
     }
   } else if (gameState.direction === "up") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart - boardWidth;
     if (start < 0) {
       gameOver();
       return;
     }
   } else if (gameState.direction === "down") {
+    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart + boardWidth;
     if (start > boardWidth * boardHeight) {
       gameOver();
       return;
     }
   }
-  if (gameState.snake.includes(start)) {
-    gameOver();
-    return;
+
+  if (isOppositeDirection(gameState)) {
+    gameState.snakeStart = gameState.lastStart;
+    gameState.direction = gameState.lastDirection;
+    drawSnake(gameState.snakeLength);
+  } else {
+    if (gameState.snake.includes(start)) {
+      gameOver();
+      return;
+    }
+
+    gameState.snakeStart = start;
+    gameState.snake.unshift(start);
+    gameState.lastDirection = gameState.direction;
+    let ateFood = eatFood();
+    if (!ateFood) {
+      updateSnakeCell("remove", lastCell);
+      gameState.snake.pop();
+    }
+    drawSnake(gameState.snakeLength);
   }
-  gameState.snakeStart = start;
-  gameState.snake.unshift(start);
-  let ateFood = eatFood();
-  if (!ateFood) {
-    updateSnakeCell("remove", lastCell);
-    gameState.snake.pop();
-  }
-  drawSnake(gameState.snakeLength);
 }
 
 let intervalId;
