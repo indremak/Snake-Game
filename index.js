@@ -61,7 +61,6 @@ function updateSnakeCell(action, cellNumber) {
     if(gameState.direction === "up" || gameState.direction === "down") {
       cellEl.classList.add("snake-head__second-position");
     }
-    cellEl.classList.add("hasSnake");  
   }  
   if (action === "add") {
     cellEl.classList.add("hasSnake");

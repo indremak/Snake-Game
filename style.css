@@ -44,6 +44,10 @@ button {
   border-bottom: none;
 }
 
+.snake-head__first-position, .snake-head__second-position {
+  background-color: rgb(222, 177, 51);
+}
+
 .snake-head__first-position::before {
   content: "";
   background-color: yellow;
