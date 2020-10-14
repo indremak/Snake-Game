@@ -10,6 +10,7 @@ const HIGHSCORESTRING = "highscore";
 const STARTSPEED = 200;
 const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
+const MAX_DIRECTION_BUFFER_LENGTH = 3;
 
 const audio = {
   eat: new Audio('assets/sounds/eat.wav'),
@@ -35,8 +36,8 @@ function createBoard(x, y) {
   }
 }
 
-function drawSnake(snakeLength) {
-  for (let i = 0; i < snakeLength; i++) {
+function drawSnake() {
+  for (let i = 0; i < gameState.snake.length; i++) {
     if (i === 0) {
       updateSnakeCell("add-head", gameState.snake[i]);
     } else {
@@ -89,10 +90,7 @@ function updateFoodCell(action, cellNumber) {
 //call function every time snake moves
 function eatFood() {
   if (gameState.snakeStart === gameState.food) {
-    gameState.snakeLength++;
-
     updateFoodCell("remove", gameState.food);
-
     createFood();
     updateFoodCell("add", gameState.food);
     gameState.score++;
@@ -108,105 +106,71 @@ function showScore() {
 
 //keycode: up 38, down 40, right 39, left 37
 // w: 87, a: 65, s: 83, d: 68
-function changeDirection(e) {
+function handleInput(e) {
   if (e.keyCode === 39 || e.keyCode === 68) {
-    if (gameState.direction === "left") {
-      return;
-    }
-    gameState.direction = "right";
-  }
-  if (e.keyCode === 37 || e.keyCode === 65) {
-    if (gameState.direction === "right") {
-      return;
-    }
-    gameState.direction = "left";
-  }
-  if (e.keyCode === 38 || e.keyCode === 87) {
-    if (gameState.direction === "down") {
-      return;
-    }
-    gameState.direction = "up";
-  }
-  if (e.keyCode === 40 || e.keyCode === 83) {
-    if (gameState.direction === "up") {
-      return;
-    }
-    gameState.direction = "down";
-  }
-  if (e.keyCode === 82) {
+    addNewDirection("right");
+  } else if (e.keyCode === 37 || e.keyCode === 65) {
+    addNewDirection("left");
+  } else if (e.keyCode === 38 || e.keyCode === 87) {
+    addNewDirection("up");
+  } else if (e.keyCode === 40 || e.keyCode === 83) {
+    addNewDirection("down");
+  } else if (e.keyCode === 82) {
     init();
   }
 }
 
-function isOppositeDirection(gameState) {
-  if (gameState.lastDirection == "right" && gameState.direction == 'left') {
-    return true;
-  } else if (gameState.lastDirection == "up" && gameState.direction == 'down') {
-    return true;
-  } else if (gameState.lastDirection == "left" && gameState.direction == 'right') {
-    return true;
-  } else if (gameState.lastDirection == "down" && gameState.direction == 'up') {
-    return true;
-  } else {
-    return false;
+function addNewDirection(direction) {
+  const buffer = gameState.directionBuffer;
+  if (buffer[buffer.length - 1] !== direction && buffer.length < MAX_DIRECTION_BUFFER_LENGTH) {
+    gameState.directionBuffer.push(direction);
   }
 }
 
 function move() {
-  let lastCell = gameState.snake[gameState.snakeLength - 1];
+  const lastCell = gameState.snake[gameState.snake.length - 1];
+  const nextMove = gameState.directionBuffer.shift();
+  const invalidDirectionCombinations = ["right_left", "left_right", "up_down", "down_up"];
+  if (nextMove && !invalidDirectionCombinations.includes(`${nextMove}_${gameState.direction}`)) {
+    gameState.direction = nextMove;
+  }
+
   let start;
   if (gameState.direction === "right") {
-    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart + 1;
-    if (start % boardWidth === 0) {
-      gameOver();
-      return;
-    }
   } else if (gameState.direction === "left") {
-    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart - 1;
-    if (start < 0 || start % boardWidth === boardWidth - 1) {
-      gameOver();
-      return;
-    }
   } else if (gameState.direction === "up") {
-    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart - boardWidth;
-    if (start < 0) {
-      gameOver();
-      return;
-    }
   } else if (gameState.direction === "down") {
-    gameState.lastStart = gameState.snakeStart;
     start = gameState.snakeStart + boardWidth;
-    if (start > boardWidth * boardHeight) {
-      gameOver();
-      return;
-    }
+  }
+  gameState.snake.unshift(start);
+  gameState.snakeStart = start;
+
+  if (hasLost()) {
+    gameOver();
+    return;
   }
 
-  if (isOppositeDirection(gameState)) {
-    gameState.snakeStart = gameState.lastStart;
-    gameState.direction = gameState.lastDirection;
-    drawSnake(gameState.snakeLength);
+  let ateFood = eatFood();
+  if (!ateFood) {
+    updateSnakeCell("remove", lastCell);
+    gameState.snake.pop();
   } else {
-    if (gameState.snake.includes(start)) {
-      gameOver();
-      return;
-    }
-
-    gameState.snakeStart = start;
-    gameState.snake.unshift(start);
-    gameState.lastDirection = gameState.direction;
-    let ateFood = eatFood();
-    if (!ateFood) {
-      updateSnakeCell("remove", lastCell);
-      gameState.snake.pop();
-    } else {
-      audio.eat.play();
-    }
-    drawSnake(gameState.snakeLength);
+    audio.eat.play();
   }
+  drawSnake();
+}
+
+function hasLost() {
+  const dir = gameState.direction;
+  const start = gameState.snakeStart;
+  return (dir === "right" && start % boardWidth === 0) ||
+  (dir === "left" && (start < 0 || start % boardWidth === boardWidth - 1)) ||
+  (dir === "up" && start < 0) ||
+  (dir === "down" && (start > boardWidth * boardHeight)) ||
+  gameState.snake.slice(1, gameState.snake.length - 1).includes(start);
 }
 
 let intervalId;
@@ -215,10 +179,6 @@ function increaseSpeed() {
   clearInterval(intervalId);
   gameState.speed = Math.max(MINSPEED, gameState.speed - SPEEDINCREMENT);
   intervalId = setInterval(move, gameState.speed);
-}
-
-function resetSpeed() {
-  gameState.speed = STARTSPEED;
 }
 
 function startGame() {
@@ -233,9 +193,8 @@ function gameOver() {
     audio.lost.play()
     gameOverText.style.display = "flex";
   });
-  setHighScore(gameState.score);
   clearInterval(intervalId);
-  resetSpeed();
+  setHighScore(gameState.score);
   pauseBtn.disabled = true;
   startBtn.disabled = true;
 }
@@ -271,27 +230,36 @@ function getHighScore() {
   }
 }
 
+function stopSounds() {
+  audio.hit.pause();
+  audio.hit.currentTime = 0;
+  audio.lost.pause();
+  audio.lost.currentTime = 0;
+}
+
 function init() {
   gameState = {
-    snakeLength: 3,
     snake: [147, 146, 145],
     snakeStart: 147,
     direction: "right",
     speed: STARTSPEED,
     score: 0,
+    directionBuffer: [],
   };
+  clearInterval(intervalId);
   displayHighScore();
+  stopSounds();
   gameOverText.style.display = "none";
   board.innerHTML = "";
   createBoard(boardWidth, boardHeight);
   createFood();
-  drawSnake(gameState.snakeLength, gameState.snakeStart);
+  drawSnake();
   updateFoodCell("add", gameState.food);
   startGame();
 }
 
 startBtn.addEventListener("click", startGame);
-document.addEventListener("keydown", changeDirection);
+document.addEventListener("keydown", handleInput);
 newGameBtn.addEventListener("click", init);
 
 init();
