@@ -124,7 +124,7 @@ button {
   animation: blinking 1.2s forwards;
   display: none;
 }
-keyframes change-background {
+@keyframes change-background {
   0% {
     opacity: 0.4;
   }
