@@ -133,7 +133,7 @@ button {
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;
-  text-align: center;
+   text-align: center;
 }
 
 button:hover:enabled{
