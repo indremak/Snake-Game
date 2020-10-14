@@ -124,9 +124,8 @@ button {
 
 #game-over {
   position: absolute;
-  left: -888px;
-  right: -888px;
-  top: 45%;
+  justify-content: center;
+  top: 350px;
   font-size: 4rem;
   color: rgb(224, 223, 233);
   font-weight: 900;

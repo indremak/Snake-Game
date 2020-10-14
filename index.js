@@ -228,10 +228,10 @@ function startGame() {
 }
 
 function gameOver() {
-  audio.hit.play().catch(() => gameOverText.style.display = "inline-block");
+  audio.hit.play().catch(() => gameOverText.style.display = "flex");
   audio.hit.addEventListener("ended", () => {
     audio.lost.play()
-    gameOverText.style.display = "inline-block";
+    gameOverText.style.display = "flex";
   });
   setHighScore(gameState.score);
   clearInterval(intervalId);
