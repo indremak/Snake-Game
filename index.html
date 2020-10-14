@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet"> 
     <title>Snake Game</title>
   </head>
   <body>
@@ -11,8 +12,10 @@
       <button class="btn-start">Start</button>
       <button class="btn-pause" disabled>Pause</button>
       <button class="btn-newGame">New Game</button>
-      <div class="score">High Score: <span class="high-score-number">0</span></div>
-      <div class="score">Score: <span class="score-number">0</span></div>
+      <div class="scores">
+        <div class="score">Score<br/> <span class="score-number">0</span></div>
+        <div class="score">High Score<br/> <span class="high-score-number">0</span></div>
+      </div>
     </div>
     <div class="board"></div>
     <div id="game-over">Game over!</div>
