@@ -126,14 +126,20 @@ button {
   position: absolute;
   justify-content: center;
   top: 350px;
-  left: -888px;
-  right: -888px;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
   font-size: 4rem;
   color: rgb(224, 223, 233);
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;
-   text-align: center;
+  text-align: center;
+}
+
+#game-over p{
+	flex: 100%;
 }
 
 button:hover:enabled{
