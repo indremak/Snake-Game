@@ -126,6 +126,8 @@ button {
   position: absolute;
   justify-content: center;
   top: 350px;
+  left: -888px;
+  right: -888px;
   font-size: 4rem;
   color: rgb(224, 223, 233);
   font-weight: 900;
