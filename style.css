@@ -5,6 +5,7 @@
 body {
   --cellWidth: 20px;
   --cellHeight: 20px;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .info {
@@ -15,6 +16,14 @@ body {
 button {
   height: 2rem;
   width: 6rem;
+  background-color: #007bff ;
+  border: 2px solid #007bff ;
+  color: #ffffff;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 15px;
+	padding-bottom: 30px;
+	font-size: 89.9%;
 }
 
 .score {
@@ -114,17 +123,59 @@ button {
   animation: change-background 1s forwards;
 }
 
+
 #game-over {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
   position: absolute;
-  top: 200px;
+  justify-content: center;
+  top: 350px;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
   font-size: 4rem;
   color: rgb(224, 223, 233);
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;
+  text-align: center;
+}
+
+#game-over p{
+	flex: 100%;
+}
+
+button:hover:enabled{
+	border-color: #007bff;
+	background-color: #fff;
+	color: #007bff;
+}
+
+button:disabled{
+	color: #887474;
+	background-color: #111f6a;
+	border-color: #111f6a;
+}
+
+.btn-start{
+	margin-right: 0px;
+	margin-left: 22px;
+}
+
+.btn-newGame{
+	margin-left: 0px;
+}
+
+.scores{
+	text-align: center;
+	border: 2px solid black;
+	margin: 20px;
+	border-radius: 5px;
+}
+
+.score{
+	display: inline-block;
+	text-align: center;
+	margin: 20px;
 }
 @keyframes change-background {
   0% {
