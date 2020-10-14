@@ -124,13 +124,15 @@ button {
 
 #game-over {
   position: absolute;
+  left: -888px;
+  right: -888px;
   top: 45%;
-  left: 38.9%;
   font-size: 4rem;
   color: rgb(224, 223, 233);
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;
+  text-align: center;
 }
 
 button:hover:enabled{
