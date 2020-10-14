@@ -37,10 +37,10 @@ function createBoard(x, y) {
 
 function drawSnake(snakeLength) {
   for (let i = 0; i < snakeLength; i++) {
-    if(i === 0) {
+    if (i === 0) {
       updateSnakeCell("add-head", gameState.snake[i]);
     } else {
-        updateSnakeCell("add", gameState.snake[i]);
+      updateSnakeCell("add", gameState.snake[i]);
     }
   }
 }
@@ -61,13 +61,13 @@ function updateSnakeCell(action, cellNumber) {
   cellEl.classList.remove("snake-head__first-position");
   cellEl.classList.remove("snake-head__second-position");
   if (action === "add-head") {
-    if(gameState.direction === "left" || gameState.direction === "right") {
+    if (gameState.direction === "left" || gameState.direction === "right") {
       cellEl.classList.add("snake-head__first-position");
     }
-    if(gameState.direction === "up" || gameState.direction === "down") {
+    if (gameState.direction === "up" || gameState.direction === "down") {
       cellEl.classList.add("snake-head__second-position");
     }
-  }  
+  }
   if (action === "add") {
     cellEl.classList.add("hasSnake");
   }
@@ -228,10 +228,10 @@ function startGame() {
 }
 
 function gameOver() {
-  audio.hit.play().catch(() => gameOverText.style.display = "initial");
+  audio.hit.play().catch(() => gameOverText.style.display = "flex");
   audio.hit.addEventListener("ended", () => {
     audio.lost.play()
-    gameOverText.style.display = "initial";
+    gameOverText.style.display = "flex";
   });
   setHighScore(gameState.score);
   clearInterval(intervalId);

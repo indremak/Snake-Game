@@ -113,9 +113,11 @@ button {
 }
 
 #game-over {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   position: absolute;
   top: 200px;
-  left: 40%;
   font-size: 4rem;
   color: rgb(224, 223, 233);
   font-weight: 900;
