@@ -228,7 +228,7 @@ function startGame() {
 }
 
 function gameOver() {
-  audio.hit.play().catch(() => gameOverText.style.display = "initial");
+  audio.hit.play().catch(() => gameOverText.style.display = "flex");
   audio.hit.addEventListener("ended", () => {
     audio.lost.play()
     gameOverText.style.display = "flex";
