@@ -109,7 +109,9 @@ button {
 }
 
 .food {
-  background-color: rgb(163, 20, 163);
+  background-color: rgb(139, 0, 139);
+  border: solid 2px gold;
+  animation: change-background 1s forwards;
 }
 
 #game-over {
@@ -124,6 +126,18 @@ button {
   animation: blinking 1.2s forwards;
   display: none;
 }
+@keyframes change-background {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 
 @keyframes blinking {
   0%,
