@@ -5,6 +5,7 @@ const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
+const bgm = document.querySelector(".btn-bgm");
 
 const HIGHSCORESTRING = "highscore";
 const STARTSPEED = 200;
@@ -230,6 +231,26 @@ function getHighScore() {
   }
 }
 
+function startbgm(){
+  var x = document.getElementById("player");
+  x.play();
+}
+
+bgm.addEventListener("click",()=>{
+  var x = document.getElementById("player");
+  // var button = document.getElementById("btn-bgm");
+  var text = bgm.innerHTML;
+  if(text == "Stop Music"){
+    bgm.innerHTML = "Play Music";
+    x.pause();
+  }else{
+    bgm.innerHTML = "Stop Music";
+    x.play();
+  }
+
+});
+
+
 function stopSounds() {
   audio.hit.pause();
   audio.hit.currentTime = 0;
@@ -256,6 +277,7 @@ function init() {
   drawSnake();
   updateFoodCell("add", gameState.food);
   startGame();
+  startbgm();
 }
 
 startBtn.addEventListener("click", startGame);
