@@ -23,6 +23,13 @@ let boardHeight = 15;
 
 let gameState;
 
+function setBoardDimension() {
+  const cellWidth = cellHeight = Math.min(800, document.body.clientWidth) / 20;
+  const root = document.body;
+  root.style.setProperty('--cellWidth', `${cellWidth}px`);
+  root.style.setProperty('--cellHeight', `${cellHeight}px`);
+}
+
 function createBoard(x, y) {
   let cellNumber = 0;
   for (let i = 0; i < y; i++) {
@@ -251,6 +258,7 @@ function init() {
   stopSounds();
   gameOverText.style.display = "none";
   board.innerHTML = "";
+  setBoardDimension()
   createBoard(boardWidth, boardHeight);
   createFood();
   drawSnake();
@@ -260,6 +268,7 @@ function init() {
 
 startBtn.addEventListener("click", startGame);
 document.addEventListener("keydown", handleInput);
+window.addEventListener("resize", setBoardDimension);
 newGameBtn.addEventListener("click", init);
 
 init();
