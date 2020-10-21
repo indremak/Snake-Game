@@ -66,8 +66,8 @@ button {
   width: 5px;
   height: 5px;
   display: block;
-  top: 11px;
-  left: 8px;
+  top: calc(75% - 5px);
+  left: calc(75% - 5px);
 }
 
 .snake-head__first-position::after {
@@ -78,9 +78,20 @@ button {
   position: relative;
   width: 5px;
   height: 5px;
-  top: -5px;
-  left: 8px;
+  top: calc(25% - 10px);
+  left: calc(75% - 5px);
   display: block;
+}
+
+@media only screen and (max-width: 500px) {
+  .snake-head__first-position::before {
+    top: 11px;
+    left: 8px;
+  }
+  .snake-head__first-position::after {
+    top: -5px;
+    left: 8px;
+  }
 }
 
 .snake-head__second-position::before {
