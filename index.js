@@ -215,9 +215,7 @@ function startGame() {
   startBtn.disabled = true;
   pauseBtn.disabled = false;
   bgm.innerHTML="Stop Music";
-  inv.innerHTML="ON";
-  desc.innerHTML=" ";
-  hardmode=0;
+  
 }
 
 function gameOver() {
@@ -322,7 +320,9 @@ function init() {
   updateFoodCell("add", gameState.food);
   startGame();
   startbgm();
-  
+  inv.innerHTML="ON";
+  desc.innerHTML=" ";
+  hardmode=0;
 }
 
 startBtn.addEventListener("click", startGame);
