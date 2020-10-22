@@ -232,14 +232,13 @@ function getHighScore() {
 }
 
 function startbgm(){
-  var x = document.getElementById("player");
+  let x = document.getElementById("player");
   x.play();
 }
 
 bgm.addEventListener("click",()=>{
-  var x = document.getElementById("player");
-  // var button = document.getElementById("btn-bgm");
-  var text = bgm.innerHTML;
+  let x = document.getElementById("player");
+  let text = bgm.innerHTML;
   if(text == "Stop Music"){
     bgm.innerHTML = "Play Music";
     x.pause();
