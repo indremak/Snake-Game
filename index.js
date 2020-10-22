@@ -3,6 +3,7 @@ const score = document.querySelector(".score-number");
 const highScore = document.querySelector(".high-score-number");
 const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
+const audioBtn = document.querySelector(".btn-audio");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 
@@ -16,6 +17,7 @@ const audio = {
   eat: new Audio('assets/sounds/eat.wav'),
   hit: new Audio('assets/sounds/hit.wav'),
   lost: new Audio('assets/sounds/lost.wav'),
+  enabled: true
 }
 
 let boardWidth = 20;
@@ -165,7 +167,7 @@ function move() {
     updateSnakeCell("remove", lastCell);
     gameState.snake.pop();
   } else {
-    audio.eat.play();
+    audio.enabled && audio.eat.play();
   }
   drawSnake();
 }
@@ -195,11 +197,15 @@ function startGame() {
 }
 
 function gameOver() {
-  audio.hit.play().catch(() => gameOverText.style.display = "flex");
-  audio.hit.addEventListener("ended", () => {
-    audio.lost.play()
-    gameOverText.style.display = "flex";
-  });
+  if (audio.enabled) {
+    audio.hit.play().catch(() => gameOverText.style.display = "flex");
+    audio.hit.addEventListener("ended", () => {
+      audio.lost.play()
+      gameOverText.style.display = "flex";
+    });
+  } else { 
+    gameOverText.style.display = "flex";  
+  }
   clearInterval(intervalId);
   setHighScore(gameState.score);
   pauseBtn.disabled = true;
@@ -244,6 +250,11 @@ function stopSounds() {
   audio.lost.currentTime = 0;
 }
 
+function toggleAudio() {
+  audio.enabled = !audio.enabled;
+  audioBtn.classList[audio.enabled ? 'remove' : 'add']("disabled");
+}
+
 function init() {
   gameState = {
     snake: [147, 146, 145],
@@ -270,5 +281,6 @@ startBtn.addEventListener("click", startGame);
 document.addEventListener("keydown", handleInput);
 window.addEventListener("resize", setBoardDimension);
 newGameBtn.addEventListener("click", init);
+audioBtn.addEventListener("click", toggleAudio);
 
 init();

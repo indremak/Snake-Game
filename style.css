@@ -172,7 +172,7 @@ button:hover:enabled{
 	color: #007bff;
 }
 
-button:disabled{
+button:disabled, button.disabled{
 	color: #887474;
 	background-color: #111f6a;
 	border-color: #111f6a;
@@ -183,7 +183,7 @@ button:disabled{
 	margin-left: 22px;
 }
 
-.btn-newGame{
+.btn-newGame, .btn-audio{
 	margin-left: 0px;
 }
 
