@@ -127,8 +127,8 @@ function handleInput(e) {
   }
 }
 
-var xDown = null;                                                        
-var yDown = null;
+let xDown = null;                                                        
+let yDown = null;
 
 function getTouches(evt) {
   return evt.touches ||             // browser API
@@ -156,7 +156,6 @@ function handleTouchMove(evt) {
     if ( xDiff > 0 ) {
       /* left swipe */ 
       addNewDirection("left");
-      handle
     } else {
       /* right swipe */
       addNewDirection("right");
