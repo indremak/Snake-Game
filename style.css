@@ -187,7 +187,7 @@ button:disabled {
 	margin-left: 22px;
 }
 
-.btn-newGame, .btn-audio{
+.btn-newGame, .btn-audio, .btn-bgm {
   margin-left: 0px;
   vertical-align: bottom;
 }

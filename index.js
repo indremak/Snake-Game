@@ -8,6 +8,7 @@ const audioOnIcon = document.querySelector(".icon-audio-on");
 const audioOffIcon = document.querySelector(".icon-audio-off");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
+const bgm = document.querySelector(".btn-bgm");
 
 const HIGHSCORESTRING = "highscore";
 const STARTSPEED = 200;
@@ -131,6 +132,54 @@ function handleInput(e) {
   }
 }
 
+let xDown = null;                                                        
+let yDown = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}                                                     
+
+function handleTouchStart(evt) {
+  const firstTouch = getTouches(evt)[0];                                      
+  xDown = firstTouch.clientX;                                      
+  yDown = firstTouch.clientY;                                      
+};                                                
+
+function handleTouchMove(evt) {
+  if ( ! xDown || ! yDown ) {
+    return;
+  }
+
+  var xUp = evt.touches[0].clientX;                                    
+  var yUp = evt.touches[0].clientY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+
+  if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+    if ( xDiff > 0 ) {
+      /* left swipe */ 
+      addNewDirection("left");
+    } else {
+      /* right swipe */
+      addNewDirection("right");
+    }                       
+  } else {
+    if ( yDiff > 0 ) {
+      /* up swipe */ 
+      addNewDirection("up");
+    } else { 
+      /* down swipe */
+      addNewDirection("down");
+    }                                                                 
+  }
+  /* reset values */
+  xDown = null;
+  yDown = null;                                             
+};
+
+
 function addNewDirection(direction) {
   const buffer = gameState.directionBuffer;
   if (buffer[buffer.length - 1] !== direction && buffer.length < MAX_DIRECTION_BUFFER_LENGTH) {
@@ -245,6 +294,25 @@ function getHighScore() {
   }
 }
 
+function startbgm(){
+  let x = document.getElementById("player");
+  x.play();
+}
+
+bgm.addEventListener("click",()=>{
+  let x = document.getElementById("player");
+  let text = bgm.innerHTML;
+  if(text == "Stop Music"){
+    bgm.innerHTML = "Play Music";
+    x.pause();
+  }else{
+    bgm.innerHTML = "Stop Music";
+    x.play();
+  }
+
+});
+
+
 function stopSounds() {
   audio.hit.pause();
   audio.hit.currentTime = 0;
@@ -284,10 +352,13 @@ function init() {
   drawSnake();
   updateFoodCell("add", gameState.food);
   startGame();
+  startbgm();
 }
 
 startBtn.addEventListener("click", startGame);
 document.addEventListener("keydown", handleInput);
+document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchmove', handleTouchMove, false);
 window.addEventListener("resize", setBoardDimension);
 newGameBtn.addEventListener("click", init);
 audioBtn.addEventListener("click", toggleAudio);
