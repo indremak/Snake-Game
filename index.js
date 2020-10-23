@@ -3,6 +3,9 @@ const score = document.querySelector(".score-number");
 const highScore = document.querySelector(".high-score-number");
 const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
+const audioBtn = document.querySelector(".btn-audio");
+const audioOnIcon = document.querySelector(".icon-audio-on");
+const audioOffIcon = document.querySelector(".icon-audio-off");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 const bgm = document.querySelector(".btn-bgm");
@@ -17,6 +20,7 @@ const audio = {
   eat: new Audio('assets/sounds/eat.wav'),
   hit: new Audio('assets/sounds/hit.wav'),
   lost: new Audio('assets/sounds/lost.wav'),
+  enabled: true
 }
 
 let boardWidth = 20;
@@ -214,7 +218,7 @@ function move() {
     updateSnakeCell("remove", lastCell);
     gameState.snake.pop();
   } else {
-    audio.eat.play();
+    audio.enabled && audio.eat.play();
   }
   drawSnake();
 }
@@ -244,11 +248,15 @@ function startGame() {
 }
 
 function gameOver() {
-  audio.hit.play().catch(() => gameOverText.style.display = "flex");
-  audio.hit.addEventListener("ended", () => {
-    audio.lost.play()
-    gameOverText.style.display = "flex";
-  });
+  if (audio.enabled) {
+    audio.hit.play().catch(() => gameOverText.style.display = "flex");
+    audio.hit.addEventListener("ended", () => {
+      audio.lost.play()
+      gameOverText.style.display = "flex";
+    });
+  } else { 
+    gameOverText.style.display = "flex";  
+  }
   clearInterval(intervalId);
   setHighScore(gameState.score);
   pauseBtn.disabled = true;
@@ -312,6 +320,18 @@ function stopSounds() {
   audio.lost.currentTime = 0;
 }
 
+function toggleAudio() {
+  console.log("audio toggle", !audio.enabled);
+  audio.enabled = !audio.enabled;
+  if (audio.enabled) {
+    audioOnIcon.classList.remove("hidden");
+    audioOffIcon.classList.add("hidden");
+  } else {
+    audioOnIcon.classList.add("hidden");
+    audioOffIcon.classList.remove("hidden");
+  }
+}
+
 function init() {
   gameState = {
     snake: [147, 146, 145],
@@ -341,5 +361,6 @@ document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 window.addEventListener("resize", setBoardDimension);
 newGameBtn.addEventListener("click", init);
+audioBtn.addEventListener("click", toggleAudio);
 
 init();
