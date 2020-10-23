@@ -4,6 +4,8 @@ const highScore = document.querySelector(".high-score-number");
 const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
 const audioBtn = document.querySelector(".btn-audio");
+const audioOnIcon = document.querySelector(".icon-audio-on");
+const audioOffIcon = document.querySelector(".icon-audio-off");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 
@@ -251,8 +253,15 @@ function stopSounds() {
 }
 
 function toggleAudio() {
+  console.log("audio toggle", !audio.enabled);
   audio.enabled = !audio.enabled;
-  audioBtn.classList[audio.enabled ? 'remove' : 'add']("disabled");
+  if (audio.enabled) {
+    audioOnIcon.classList.remove("hidden");
+    audioOffIcon.classList.add("hidden");
+  } else {
+    audioOnIcon.classList.add("hidden");
+    audioOffIcon.classList.remove("hidden");
+  }
 }
 
 function init() {

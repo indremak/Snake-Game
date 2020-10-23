@@ -172,10 +172,14 @@ button:hover:enabled{
 	color: #007bff;
 }
 
-button:disabled, button.disabled{
+button:disabled {
 	color: #887474;
 	background-color: #111f6a;
 	border-color: #111f6a;
+}
+
+.material-icons.hidden {
+  display: none;
 }
 
 .btn-start{
@@ -184,7 +188,8 @@ button:disabled, button.disabled{
 }
 
 .btn-newGame, .btn-audio{
-	margin-left: 0px;
+  margin-left: 0px;
+  vertical-align: bottom;
 }
 
 .scores{
