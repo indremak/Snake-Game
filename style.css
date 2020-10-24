@@ -3,9 +3,19 @@
 }
 
 body {
+  background-image: url(./assets/images/bg.jpg);
+  background-size: auto;
   --cellWidth: 20px;
   --cellHeight: 20px;
   font-family: 'Noto Sans JP', sans-serif;
+}
+
+.desc {
+  color: white;
+}
+
+.hard {
+  color: white;
 }
 
 .hard{
@@ -36,6 +46,10 @@ button {
   margin: 0 auto;
   width: fit-content;
   font-size: 2rem;
+}
+
+.scores {
+  background-color: cornflowerblue;
 }
 
 .board {
