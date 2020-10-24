@@ -14,7 +14,7 @@ const STARTSPEED = 200;
 const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
 const MAX_DIRECTION_BUFFER_LENGTH = 3;
-var hardmode = 0;
+let hardMode = 0;
 const audio = {
   eat: new Audio('assets/sounds/eat.wav'),
   hit: new Audio('assets/sounds/hit.wav'),
@@ -120,34 +120,32 @@ function handleInput(e) {
   if (e.keyCode === 82) {
     init();
   }else if (e.keyCode === 39 || e.keyCode === 68) {
-    if(hardmode==0){
+    if(hardMode===0){
       addNewDirection("right");
     }else{
       addNewDirection("left");
     }
   } else if (e.keyCode === 37 || e.keyCode === 65) {
-    if(hardmode==0){
+    if(hardMode===0){
       addNewDirection("left");
     }else{
       addNewDirection("right");
     }
   } else if (e.keyCode === 38 || e.keyCode === 87) {
-    if(hardmode==0){
+    if(hardMode===0){
       addNewDirection("up");
     }else{
       addNewDirection("down");
     }
   } else if (e.keyCode === 40 || e.keyCode === 83) {
-    if(hardmode==0){
+    if(hardMode===0){
       addNewDirection("down");
     }else{
       addNewDirection("up");
     }
   }
-  //  else if (e.keyCode === 82) {
-  //   init();
-  // }
 }
+
 
 function addNewDirection(direction) {
   const buffer = gameState.directionBuffer;
@@ -283,11 +281,11 @@ inv.addEventListener("click",()=>{
   let x = inv.innerHTML;
   if(x=='ON'){
     inv.innerHTML='OFF';
-    hardmode=1;
+    hardMode=1;
     desc.innerHTML="Controls are now inverted!";
   }else{
     inv.innerHTML='ON'
-    hardmode=0;
+    hardMode=0;
     desc.innerHTML=" ";
   }
 });
@@ -322,7 +320,7 @@ function init() {
   startbgm();
   inv.innerHTML="ON";
   desc.innerHTML=" ";
-  hardmode=0;
+  hardMode=0;
 }
 
 startBtn.addEventListener("click", startGame);
