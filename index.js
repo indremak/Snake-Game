@@ -3,6 +3,9 @@ const score = document.querySelector(".score-number");
 const highScore = document.querySelector(".high-score-number");
 const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
+const audioBtn = document.querySelector(".btn-audio");
+const audioOnIcon = document.querySelector(".icon-audio-on");
+const audioOffIcon = document.querySelector(".icon-audio-off");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 const bgm = document.querySelector(".btn-bgm");
@@ -19,6 +22,7 @@ const audio = {
   eat: new Audio('assets/sounds/eat.wav'),
   hit: new Audio('assets/sounds/hit.wav'),
   lost: new Audio('assets/sounds/lost.wav'),
+  enabled: true
 }
 
 let boardWidth = 20;
@@ -146,6 +150,53 @@ function handleInput(e) {
   }
 }
 
+let xDown = null;                                                        
+let yDown = null;
+
+function getTouches(evt) {
+  return evt.touches ||             // browser API
+         evt.originalEvent.touches; // jQuery
+}                                                     
+
+function handleTouchStart(evt) {
+  const firstTouch = getTouches(evt)[0];                                      
+  xDown = firstTouch.clientX;                                      
+  yDown = firstTouch.clientY;                                      
+};                                                
+
+function handleTouchMove(evt) {
+  if ( ! xDown || ! yDown ) {
+    return;
+  }
+
+  var xUp = evt.touches[0].clientX;                                    
+  var yUp = evt.touches[0].clientY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+
+  if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+    if ( xDiff > 0 ) {
+      /* left swipe */ 
+      addNewDirection("left");
+    } else {
+      /* right swipe */
+      addNewDirection("right");
+    }                       
+  } else {
+    if ( yDiff > 0 ) {
+      /* up swipe */ 
+      addNewDirection("up");
+    } else { 
+      /* down swipe */
+      addNewDirection("down");
+    }                                                                 
+  }
+  /* reset values */
+  xDown = null;
+  yDown = null;                                             
+};
+
 
 function addNewDirection(direction) {
   const buffer = gameState.directionBuffer;
@@ -185,7 +236,7 @@ function move() {
     updateSnakeCell("remove", lastCell);
     gameState.snake.pop();
   } else {
-    audio.eat.play();
+    audio.enabled && audio.eat.play();
   }
   drawSnake();
 }
@@ -217,11 +268,15 @@ function startGame() {
 }
 
 function gameOver() {
-  audio.hit.play().catch(() => gameOverText.style.display = "flex");
-  audio.hit.addEventListener("ended", () => {
-    audio.lost.play()
-    gameOverText.style.display = "flex";
-  });
+  if (audio.enabled) {
+    audio.hit.play().catch(() => gameOverText.style.display = "flex");
+    audio.hit.addEventListener("ended", () => {
+      audio.lost.play()
+      gameOverText.style.display = "flex";
+    });
+  } else { 
+    gameOverText.style.display = "flex";  
+  }
   clearInterval(intervalId);
   setHighScore(gameState.score);
   pauseBtn.disabled = true;
@@ -297,6 +352,18 @@ function stopSounds() {
   audio.lost.currentTime = 0;
 }
 
+function toggleAudio() {
+  console.log("audio toggle", !audio.enabled);
+  audio.enabled = !audio.enabled;
+  if (audio.enabled) {
+    audioOnIcon.classList.remove("hidden");
+    audioOffIcon.classList.add("hidden");
+  } else {
+    audioOnIcon.classList.add("hidden");
+    audioOffIcon.classList.remove("hidden");
+  }
+}
+
 function init() {
   gameState = {
     snake: [147, 146, 145],
@@ -325,7 +392,10 @@ function init() {
 
 startBtn.addEventListener("click", startGame);
 document.addEventListener("keydown", handleInput);
+document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchmove', handleTouchMove, false);
 window.addEventListener("resize", setBoardDimension);
 newGameBtn.addEventListener("click", init);
+audioBtn.addEventListener("click", toggleAudio);
 
 init();
