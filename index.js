@@ -9,13 +9,15 @@ const audioOffIcon = document.querySelector(".icon-audio-off");
 const gameOverText = document.getElementById("game-over");
 const newGameBtn = document.querySelector(".btn-newGame");
 const bgm = document.querySelector(".btn-bgm");
+const inv = document.querySelector(".btn-inv");
+const desc=document.querySelector(".desc");
 
 const HIGHSCORESTRING = "highscore";
 const STARTSPEED = 200;
 const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
 const MAX_DIRECTION_BUFFER_LENGTH = 3;
-
+let hardMode = 0;
 const audio = {
   eat: new Audio('assets/sounds/eat.wav'),
   hit: new Audio('assets/sounds/hit.wav'),
@@ -119,16 +121,32 @@ function showScore() {
 //keycode: up 38, down 40, right 39, left 37
 // w: 87, a: 65, s: 83, d: 68
 function handleInput(e) {
-  if (e.keyCode === 39 || e.keyCode === 68) {
-    addNewDirection("right");
-  } else if (e.keyCode === 37 || e.keyCode === 65) {
-    addNewDirection("left");
-  } else if (e.keyCode === 38 || e.keyCode === 87) {
-    addNewDirection("up");
-  } else if (e.keyCode === 40 || e.keyCode === 83) {
-    addNewDirection("down");
-  } else if (e.keyCode === 82) {
+  if (e.keyCode === 82) {
     init();
+  }else if (e.keyCode === 39 || e.keyCode === 68) {
+    if(hardMode===0){
+      addNewDirection("right");
+    }else{
+      addNewDirection("left");
+    }
+  } else if (e.keyCode === 37 || e.keyCode === 65) {
+    if(hardMode===0){
+      addNewDirection("left");
+    }else{
+      addNewDirection("right");
+    }
+  } else if (e.keyCode === 38 || e.keyCode === 87) {
+    if(hardMode===0){
+      addNewDirection("up");
+    }else{
+      addNewDirection("down");
+    }
+  } else if (e.keyCode === 40 || e.keyCode === 83) {
+    if(hardMode===0){
+      addNewDirection("down");
+    }else{
+      addNewDirection("up");
+    }
   }
 }
 
@@ -245,6 +263,8 @@ function startGame() {
   intervalId = setInterval(move, gameState.speed);
   startBtn.disabled = true;
   pauseBtn.disabled = false;
+  bgm.innerHTML="Stop Music";
+  
 }
 
 function gameOver() {
@@ -312,6 +332,18 @@ bgm.addEventListener("click",()=>{
 
 });
 
+inv.addEventListener("click",()=>{
+  let x = inv.innerHTML;
+  if(x=='ON'){
+    inv.innerHTML='OFF';
+    hardMode=1;
+    desc.innerHTML="Controls are now inverted!";
+  }else{
+    inv.innerHTML='ON'
+    hardMode=0;
+    desc.innerHTML=" ";
+  }
+});
 
 function stopSounds() {
   audio.hit.pause();
@@ -353,6 +385,9 @@ function init() {
   updateFoodCell("add", gameState.food);
   startGame();
   startbgm();
+  inv.innerHTML="ON";
+  desc.innerHTML=" ";
+  hardMode=0;
 }
 
 startBtn.addEventListener("click", startGame);

@@ -8,6 +8,12 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
+.hard{
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .info {
   margin: 10px auto;
   width: max-content;
