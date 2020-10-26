@@ -11,6 +11,7 @@ const newGameBtn = document.querySelector(".btn-newGame");
 const bgm = document.querySelector(".btn-bgm");
 const inv = document.querySelector(".btn-inv");
 const desc = document.querySelector(".desc");
+const hardModeCheckbox = document.querySelector("#switch__checkbox");
 
 const HIGHSCORESTRING = "highscore";
 const STARTSPEED = 200;
@@ -346,16 +347,13 @@ bgm.addEventListener("click", () => {
   }
 });
 
-inv.addEventListener("click", () => {
-  let x = inv.innerHTML;
-  if (x == "ON") {
-    inv.innerHTML = "OFF";
+hardModeCheckbox.addEventListener("click", () => {
+  if (hardModeCheckbox.checked) {
     hardMode = 1;
-    desc.innerHTML = "Controls are now inverted!";
+    desc.style.opacity = "1";
   } else {
-    inv.innerHTML = "ON";
     hardMode = 0;
-    desc.innerHTML = " ";
+    desc.style.opacity = "0";
   }
 });
 
@@ -399,8 +397,8 @@ function init() {
   updateFoodCell("add", gameState.food);
   startGame();
   startbgm();
-  inv.innerHTML = "ON";
-  desc.innerHTML = " ";
+  hardModeCheckbox.checked = false;
+  desc.style.opacity = "0";
   hardMode = 0;
 }
 
