@@ -1,29 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>Snake Game</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title>Snake Game</title>
-</head>
-
-<body>
-  <div class="info">
-    <button class="btn-start">Start</button>
-    <button class="btn-pause" disabled>Pause</button>
-    <button class="btn-newGame">New Game</button>
-    <button class="btn-bgm">Stop Music</button>
-    <button class="btn-audio">
-      <span class="material-icons icon-audio-on">volume_up</span>
-      <span class="material-icons icon-audio-off hidden">volume_off</span>
-    </button>
-    <div class="scores">
-      <div class="score">Score<br /> <span class="score-number">0</span></div>
-      <div class="score">High Score<br /> <span class="high-score-number">0</span></div>
+  <body>
+    <div class="info">
+      <div class="scores">
+        <div class="score">
+          Score<br />
+          <span class="score-number">0</span>
+        </div>
+        <div class="score">
+          High Score<br />
+          <span class="high-score-number">0</span>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn-start">Start</button>
+        <button class="btn-pause" disabled>Pause</button>
+        <button class="btn-newGame">New Game</button>
+        <button class="btn-bgm">Stop Music</button>
+        <button class="btn-audio">
+          <span class="material-icons icon-audio-on">volume_up</span>
+          <span class="material-icons icon-audio-off hidden">volume_off</span>
+        </button>
+      </div>
     </div>
+    <div class="game-board">
+      <div class="board"></div>
+      <div id="game-over">
+        Game over!
+        <p class="restart-msg">Press R to restart</p>
+      </div>
+    </div>
+<<<<<<< HEAD
   </div>
   <div class="board"></div>
   <div id="game-over">Game over!</div>
@@ -39,5 +61,28 @@
   </div>
   <script src="./index.js"></script>
 </body>
+=======
+    <div>
+      <audio id="player" autoplay hidden>
+        <source
+          src="./assets/sounds/amazing-plan-by-kevin-macleod-from-filmmusic-io.mp3"
+          type="audio/mpeg"
+        />
+        audio isn't supported.
+      </audio>
+    </div>
+    <div class="hard">
+      <span class="hard-span">Inverted hard mode:</span>
+      <div class="slider-box">
+        <input type="checkbox" id="switch__checkbox" />
+        <label class="switch" for="switch__checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+>>>>>>> 8a7557b697c7619671421f6789d74cc89c63e0c6
 
+      <p class="desc">Controls are now inverted!</p>
+    </div>
+    <script src="./index.js"></script>
+  </body>
 </html>
