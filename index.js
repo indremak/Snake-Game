@@ -1,3 +1,22 @@
+const requestAnimationFrame = (
+  window.requestAnimationFrame
+  || window.mozRequestAnimationFrame
+  || window.msRequestAnimationFrame
+  || window.webkitRequestAnimationFrame
+);
+
+const cancelAnimationFrame = (
+  window.cancelAnimationFrame
+  || window.mozCancelAnimationFrame
+);
+
+let requestAnimationFrameID;
+
+const STATE_PLAYING = 1
+const STATE_GAME_OVER = 2
+const STATE_PAUSED = 3
+
+
 const board = document.querySelector(".board");
 const score = document.querySelector(".score-number");
 const highScore = document.querySelector(".high-score-number");
@@ -268,18 +287,33 @@ function hasLost() {
   );
 }
 
-let intervalId;
-
 function increaseSpeed() {
-  clearInterval(intervalId);
   gameState.speed = Math.max(MINSPEED, gameState.speed - SPEEDINCREMENT);
-  intervalId = setInterval(move, gameState.speed);
+}
+
+function startAnimation()
+{
+  requestAnimationFrame(onEachFrame)
+}
+
+let ts
+function onEachFrame(timestamp)
+{
+  if (gameState.state === STATE_PLAYING) {
+    if (!ts || timestamp - ts > gameState.speed) {
+      this.move()
+      ts = timestamp
+    }
+    requestAnimationFrameID = requestAnimationFrame(onEachFrame)
+  } else {
+    cancelAnimationFrame(requestAnimationFrameID)
+  }
 }
 
 function startGame() {
-  intervalId = setInterval(move, gameState.speed);
   startBtn.disabled = true;
   pauseBtn.disabled = false;
+  startAnimation()
   bgm.innerHTML = "Stop Music";
 }
 
@@ -293,14 +327,22 @@ function gameOver() {
   } else {
     gameOverText.style.display = "initial";
   }
-  clearInterval(intervalId);
+  
+  gameState.state = STATE_GAME_OVER
   setHighScore(gameState.score);
   pauseBtn.disabled = true;
   startBtn.disabled = true;
 }
 
+startBtn.addEventListener("click", () => {
+  startBtn.disabled = true;
+  pauseBtn.disabled = false;
+  gameState.state = STATE_PLAYING
+  startAnimation()
+});
+
 pauseBtn.addEventListener("click", () => {
-  clearInterval(intervalId);
+  gameState.state = STATE_PAUSED
   startBtn.disabled = false;
   pauseBtn.disabled = true;
 });
@@ -384,8 +426,9 @@ function init() {
     speed: STARTSPEED,
     score: 0,
     directionBuffer: [],
+    state: STATE_PLAYING
   };
-  clearInterval(intervalId);
+  cancelAnimationFrame(requestAnimationFrameID);
   displayHighScore();
   stopSounds();
   gameOverText.style.display = "none";
@@ -402,7 +445,6 @@ function init() {
   hardMode = 0;
 }
 
-startBtn.addEventListener("click", startGame);
 document.addEventListener("keydown", handleInput);
 document.addEventListener("touchstart", handleTouchStart, false);
 document.addEventListener("touchmove", handleTouchMove, false);
