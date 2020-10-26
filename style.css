@@ -3,42 +3,111 @@
 }
 
 body {
+  background-image: url(./assets/images/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
   --cellWidth: 20px;
   --cellHeight: 20px;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.desc {
+  color: white;
+  margin: 0;
+  margin-left: 2rem;
+  opacity: 0;
+}
+
+.hard {
+  text-align: center;
+  color: white;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slider-box {
+  position: relative;
+  display: inline-block;
+  height: 1.6rem;
+}
+
+.switch {
+  background-color: #887474;
+  display: inline-block;
+  width: 4rem;
+  height: 100%;
+}
+
+#switch__checkbox {
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  background-color: rgb(247, 240, 240);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-left: 27px;
+  width: 30%;
+  height: 80%;
+  transform: translateX(0%);
+  transition: all 0.2s;
+}
+
+#switch__checkbox:checked ~ .switch > .slider {
+  margin: auto;
+  transform: translateX(100%);
+}
+
+#switch__checkbox:checked ~ .switch {
+  background-color: #007bff;
 }
 
 .info {
-  margin: 10px auto;
+  margin: 0px auto;
   width: max-content;
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
 }
 
 button {
   height: 2rem;
   width: 6rem;
-  background-color: #007bff ;
-  border: 2px solid #007bff ;
+  background-color: #007bff;
+  border: none;
+  outline: none;
   color: #ffffff;
-	border-radius: 5px;
-	padding: 10px;
-	margin: 15px;
-	padding-bottom: 30px;
-	font-size: 89.9%;
+  border-radius: 5px;
+  padding: 10px;
+  padding-bottom: 30px;
+  font-size: 89.9%;
 }
-
-.score {
-  margin: 0 auto;
-  width: fit-content;
-  font-size: 2rem;
+.game-board {
+  position: relative;
 }
 
 .board {
   width: calc(var(--cellWidth) * 20.1);
   height: calc(var(--cellHeight) * 15);
-  margin: 10px auto;
+  margin: 0px auto;
   border: 1px solid rgb(0, 0, 0);
   border-right: none;
   border-top: none;
+}
+
+.info {
+  width: calc(var(--cellWidth) * 20.05);
 }
 
 .cell {
@@ -53,7 +122,8 @@ button {
   border-bottom: none;
 }
 
-.snake-head__first-position, .snake-head__second-position {
+.snake-head__first-position,
+.snake-head__second-position {
   background-color: rgb(222, 177, 51);
 }
 
@@ -145,65 +215,77 @@ button {
   animation: change-background 1s forwards;
 }
 
-
 #game-over {
   position: absolute;
-  justify-content: center;
-  top: 350px;
-  left:0;
-  right:0;
-  margin-left:auto;
-  margin-right:auto;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: auto;
+  margin-right: auto;
   font-size: 4rem;
+  letter-spacing: 3px;
   color: rgb(224, 223, 233);
   font-weight: 900;
   animation: blinking 1.2s forwards;
   display: none;
   text-align: center;
+  z-index: 1000;
 }
 
-#game-over p{
-	flex: 100%;
+.restart-msg {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 0;
 }
 
-button:hover:enabled{
-	border-color: #007bff;
-	background-color: #fff;
-	color: #007bff;
+button:hover:enabled {
+  border-color: #007bff;
+  background-color: #fff;
+  color: #007bff;
 }
 
 button:disabled {
-	color: #887474;
-	background-color: #111f6a;
-	border-color: #111f6a;
+  color: #887474;
+  background-color: #111f6a;
+  border-color: #111f6a;
 }
 
 .material-icons.hidden {
   display: none;
 }
 
-.btn-start{
-	margin-right: 0px;
-	margin-left: 22px;
+.btn-start {
+  margin-right: 0px;
 }
 
-.btn-newGame, .btn-audio, .btn-bgm {
+.btn-newGame,
+.btn-audio,
+.btn-bgm {
   margin-left: 0px;
   vertical-align: bottom;
 }
 
-.scores{
-	text-align: center;
-	border: 2px solid black;
-	margin: 20px;
-	border-radius: 5px;
+.scores {
+  color: rgb(240, 240, 243);
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
-.score{
-	display: inline-block;
-	text-align: center;
-	margin: 20px;
+.score {
+  text-align: center;
+  margin: 10px 20px;
+  width: fit-content;
+  font-size: 1.1rem;
+  display: flex;
 }
+
+.score-number,
+.high-score-number {
+  margin: 0 8px;
+}
+
 @keyframes change-background {
   0% {
     opacity: 0.4;
@@ -215,7 +297,6 @@ button:disabled {
     opacity: 1;
   }
 }
-
 
 @keyframes blinking {
   0%,
