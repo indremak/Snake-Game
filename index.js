@@ -14,16 +14,22 @@ const STATE_GAME_OVER = 2;
 const STATE_PAUSED = 3;
 
 const board = document.querySelector(".board");
+
 const score = document.querySelector(".score-number");
 const highScore = document.querySelector(".high-score-number");
+
+const newGameBtn = document.querySelector(".btn-newGame");
 const pauseBtn = document.querySelector(".btn-pause");
 const startBtn = document.querySelector(".btn-start");
+
 const audioBtn = document.querySelector(".btn-audio");
 const audioOnIcon = document.querySelector(".icon-audio-on");
 const audioOffIcon = document.querySelector(".icon-audio-off");
+const musicOnIcon = document.querySelector(".icon-music_note");
+const musicOffIcon = document.querySelector(".icon-music_off");
+const bgMusic = document.querySelector(".btn-bgm");
+
 const gameOverText = document.getElementById("game-over");
-const newGameBtn = document.querySelector(".btn-newGame");
-const bgm = document.querySelector(".btn-bgm");
 const inv = document.querySelector(".btn-inv");
 const desc = document.querySelector(".desc");
 const hardModeCheckbox = document.querySelector("#switch__checkbox");
@@ -40,6 +46,7 @@ const audio = {
   lost: new Audio("assets/sounds/lost.wav"),
   enabled: true,
 };
+let backgroundMusicEnabled = true;
 
 let boardWidth = 20;
 let boardHeight = 15;
@@ -308,7 +315,6 @@ function startGame() {
   startBtn.disabled = true;
   pauseBtn.disabled = false;
   startAnimation();
-  bgm.innerHTML = "Stop Music";
 }
 
 function gameOver() {
@@ -366,22 +372,25 @@ function getHighScore() {
   }
 }
 
-function startbgm() {
-  let x = document.getElementById("player");
-  x.play();
+function toggleMusic() {
+  let backgroundMusic = document.getElementById("player");
+  backgroundMusicEnabled = !backgroundMusicEnabled;
+  if (backgroundMusicEnabled) {
+    musicOnIcon.classList.remove("hidden");
+    musicOffIcon.classList.add("hidden");
+    backgroundMusic.play();
+  } else {
+    musicOnIcon.classList.add("hidden");
+    musicOffIcon.classList.remove("hidden");
+    backgroundMusic.pause();
+  }
+}
+function startMusic() {
+  let backgroundMusic = document.getElementById("player");
+  backgroundMusic.play();
 }
 
-bgm.addEventListener("click", () => {
-  let x = document.getElementById("player");
-  let text = bgm.innerHTML;
-  if (text == "Stop Music") {
-    bgm.innerHTML = "Play Music";
-    x.pause();
-  } else {
-    bgm.innerHTML = "Stop Music";
-    x.play();
-  }
-});
+bgMusic.addEventListener("click", toggleMusic);
 
 hardModeCheckbox.addEventListener("click", () => {
   if (hardModeCheckbox.checked) {
@@ -432,7 +441,6 @@ function init() {
   drawSnake();
   updateFoodCell("add", gameState.food);
   startGame();
-  startbgm();
   hardModeCheckbox.checked = false;
   desc.style.opacity = "0";
   hardMode = 0;
@@ -446,3 +454,4 @@ newGameBtn.addEventListener("click", init);
 audioBtn.addEventListener("click", toggleAudio);
 
 init();
+startMusic();
