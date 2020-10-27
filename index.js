@@ -1,21 +1,17 @@
-const requestAnimationFrame = (
-  window.requestAnimationFrame
-  || window.mozRequestAnimationFrame
-  || window.msRequestAnimationFrame
-  || window.webkitRequestAnimationFrame
-);
+const requestAnimationFrame =
+  window.requestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
+  window.webkitRequestAnimationFrame;
 
-const cancelAnimationFrame = (
-  window.cancelAnimationFrame
-  || window.mozCancelAnimationFrame
-);
+const cancelAnimationFrame =
+  window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 
 let requestAnimationFrameID;
 
-const STATE_PLAYING = 1
-const STATE_GAME_OVER = 2
-const STATE_PAUSED = 3
-
+const STATE_PLAYING = 1;
+const STATE_GAME_OVER = 2;
+const STATE_PAUSED = 3;
 
 const board = document.querySelector(".board");
 const score = document.querySelector(".score-number");
@@ -291,29 +287,27 @@ function increaseSpeed() {
   gameState.speed = Math.max(MINSPEED, gameState.speed - SPEEDINCREMENT);
 }
 
-function startAnimation()
-{
-  requestAnimationFrame(onEachFrame)
+function startAnimation() {
+  requestAnimationFrame(onEachFrame);
 }
 
-let ts
-function onEachFrame(timestamp)
-{
+let ts;
+function onEachFrame(timestamp) {
   if (gameState.state === STATE_PLAYING) {
     if (!ts || timestamp - ts > gameState.speed) {
-      this.move()
-      ts = timestamp
+      this.move();
+      ts = timestamp;
     }
-    requestAnimationFrameID = requestAnimationFrame(onEachFrame)
+    requestAnimationFrameID = requestAnimationFrame(onEachFrame);
   } else {
-    cancelAnimationFrame(requestAnimationFrameID)
+    cancelAnimationFrame(requestAnimationFrameID);
   }
 }
 
 function startGame() {
   startBtn.disabled = true;
   pauseBtn.disabled = false;
-  startAnimation()
+  startAnimation();
   bgm.innerHTML = "Stop Music";
 }
 
@@ -327,8 +321,8 @@ function gameOver() {
   } else {
     gameOverText.style.display = "initial";
   }
-  
-  gameState.state = STATE_GAME_OVER
+
+  gameState.state = STATE_GAME_OVER;
   setHighScore(gameState.score);
   pauseBtn.disabled = true;
   startBtn.disabled = true;
@@ -337,12 +331,12 @@ function gameOver() {
 startBtn.addEventListener("click", () => {
   startBtn.disabled = true;
   pauseBtn.disabled = false;
-  gameState.state = STATE_PLAYING
-  startAnimation()
+  gameState.state = STATE_PLAYING;
+  startAnimation();
 });
 
 pauseBtn.addEventListener("click", () => {
-  gameState.state = STATE_PAUSED
+  gameState.state = STATE_PAUSED;
   startBtn.disabled = false;
   pauseBtn.disabled = true;
 });
@@ -407,7 +401,6 @@ function stopSounds() {
 }
 
 function toggleAudio() {
-  console.log("audio toggle", !audio.enabled);
   audio.enabled = !audio.enabled;
   if (audio.enabled) {
     audioOnIcon.classList.remove("hidden");
@@ -426,7 +419,7 @@ function init() {
     speed: STARTSPEED,
     score: 0,
     directionBuffer: [],
-    state: STATE_PLAYING
+    state: STATE_PLAYING,
   };
   cancelAnimationFrame(requestAnimationFrameID);
   displayHighScore();
