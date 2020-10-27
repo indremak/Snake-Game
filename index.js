@@ -128,11 +128,7 @@ function eatFood() {
     updateFoodCell("remove", gameState.food);
     createFood();
     updateFoodCell("add", gameState.food);
-    if(gameState.score/5 > 2){
-      gameState.score += Math.floor(gameState.score/10);
-    }else{
-      gameState.score++;
-    }
+    gameState.score += Math.ceil((gameState.score+1)/10);
     increaseSpeed();
     showScore();
     return true;
