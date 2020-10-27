@@ -124,7 +124,7 @@ function eatFood() {
     updateFoodCell("remove", gameState.food);
     createFood();
     updateFoodCell("add", gameState.food);
-    gameState.score++;
+    gameState.score += Math.ceil((gameState.score+1)/10);
     increaseSpeed();
     showScore();
     return true;
