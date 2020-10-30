@@ -273,7 +273,7 @@ function move() {
     updateSnakeCell("remove", lastCell);
     gameState.snake.pop();
   } else {
-    audio.enabled && audio.eat.play();
+    audio.enabled && audio.eat.cloneNode().play();
   }
   drawSnake();
 }
