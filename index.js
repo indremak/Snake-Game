@@ -172,6 +172,8 @@ function handleInput(e) {
       addNewDirection("up");
     }
   }
+  // The arrow keys can scroll the window while playing, we disable this
+  e.preventDefault();
 }
 
 let xDown = null;
