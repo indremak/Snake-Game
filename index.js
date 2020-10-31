@@ -443,9 +443,7 @@ function init() {
   drawSnake();
   updateFoodCell("add", gameState.food);
   startGame();
-  hardModeCheckbox.checked = false;
   desc.style.opacity = "0";
-  hardMode = 0;
 }
 
 document.addEventListener("keydown", handleInput);
