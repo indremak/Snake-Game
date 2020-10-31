@@ -336,7 +336,7 @@ function gameOver() {
   gameState.state = STATE_GAME_OVER;
 
 
-  if(hardMode ==1){
+  if(hardMode ===1){
     setHardModeHighScore(gameState.score);
   }else{
     setHighScore(gameState.score);
@@ -438,6 +438,7 @@ hardModeCheckbox.addEventListener("click", () => {
     desc.style.opacity = "1";
   } else {
     hardMode = 0;
+    displayHighScore();
     desc.style.opacity = "0";
   }
 });
@@ -471,7 +472,7 @@ function init() {
     state: STATE_PLAYING,
   };
   cancelAnimationFrame(requestAnimationFrameID);
-  if(hardMode == 1){
+  if(hardMode === 1){
     displayHardModeHighScore();
   }else {
     displayHighScore();
