@@ -35,6 +35,9 @@ const desc = document.querySelector(".desc");
 const hardModeCheckbox = document.querySelector("#switch__checkbox");
 
 const HIGHSCORESTRING = "highscore";
+
+const HARDMODEHIGHSCORESTRING = "hardmodehighscore";
+
 const STARTSPEED = 200;
 const SPEEDINCREMENT = 5;
 const MINSPEED = 25;
@@ -329,9 +332,15 @@ function gameOver() {
   } else {
     gameOverText.style.display = "initial";
   }
-
+  
   gameState.state = STATE_GAME_OVER;
-  setHighScore(gameState.score);
+
+
+  if(hardMode ==1){
+    setHardModeHighScore(gameState.score);
+  }else{
+    setHighScore(gameState.score);
+  }
   pauseBtn.disabled = true;
   startBtn.disabled = true;
 }
@@ -348,6 +357,34 @@ pauseBtn.addEventListener("click", () => {
   startBtn.disabled = false;
   pauseBtn.disabled = true;
 });
+//Hard Mode high Score
+function setHardModeHighScore(score) {
+  let currentHardModeHighScore = localStorage.getItem(HARDMODEHIGHSCORESTRING);
+  if (currentHardModeHighScore != null) {
+    if (score > currentHardModeHighScore) {
+      localStorage.setItem(HARDMODEHIGHSCORESTRING, score);
+    }
+  } else {
+    localStorage.setItem(HARDMODEHIGHSCORESTRING, score);
+  }
+  displayHardModeHighScore();
+}
+
+function displayHardModeHighScore() {
+  highScore.innerHTML = getHardModeHighScore();
+}
+
+function getHardModeHighScore() {
+  let currentHardModeHighScore = localStorage.getItem(HARDMODEHIGHSCORESTRING);
+  if (currentHardModeHighScore != null) {
+    return currentHardModeHighScore;
+  } else {
+    return 0;
+  }
+}
+
+
+//================================================================
 
 function setHighScore(score) {
   let currentHighScore = localStorage.getItem(HIGHSCORESTRING);
@@ -397,6 +434,7 @@ bgMusic.addEventListener("click", toggleMusic);
 hardModeCheckbox.addEventListener("click", () => {
   if (hardModeCheckbox.checked) {
     hardMode = 1;
+    displayHardModeHighScore();
     desc.style.opacity = "1";
   } else {
     hardMode = 0;
@@ -433,7 +471,12 @@ function init() {
     state: STATE_PLAYING,
   };
   cancelAnimationFrame(requestAnimationFrameID);
-  displayHighScore();
+  if(hardMode == 1){
+    displayHardModeHighScore();
+  }else {
+    displayHighScore();
+  }
+ 
   stopSounds();
   gameOverText.style.display = "none";
   board.innerHTML = "";
